@@ -1,10 +1,10 @@
 create_observation <- function(B,k,emer,a,L){
   x <- state <- numeric(L)
-  state[1] <- sample(k,1,prob=a_ans[1,-1])
-  x[1] <- sample(B,1,prob=emer_ans[state[1],])
+  state[1] <- sample(k,1,prob=a[1,-1])
+  x[1] <- sample(B,1,prob=emer[state[1],])
   for(i in 2:L){
-    state[i] <- sample(k,1,prob=a_ans[state[i-1]+1,-1])
-    x[i] <- sample(B,1,prob=emer_ans[state[i],])
+    state[i] <- sample(k,1,prob=a[state[i-1]+1,-1])
+    x[i] <- sample(B,1,prob=emer[state[i],])
   }
   return(list(
     "x"=x,
