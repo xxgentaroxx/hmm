@@ -69,8 +69,8 @@ bw_expectation <- function(x,B,k,emer,a,fw,bw,p){
   A <- matrix(mapply(function(from,to)logsumexp(fw[from,-L]+a[from+1,to+1]+
                                                   mapply(function(xi)emer[to,which(B==xi)],xi=x[-1])+bw[to,-1]),
                      from=rep(1:K,each=K),to=rep(1:K,K)),K,K,byrow=T)-p
-  emer <- exp(E)/rowSums(exp(E))
-  a[-1,-1] <- exp(A)/rowSums(exp(A))
+  emer <- exp(E-apply(E,1,logsumexp))
+  a[-1,-1] <- exp(A-apply(A,1,logsumexp))
   
   return(list("e"=emer,"a"=a))
 }
