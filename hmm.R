@@ -101,7 +101,7 @@ baum_welch <- function(x,B,k,emer,a,epsilon=0.01,maxloop=1000){
     if(p-old_p<epsilon) break
   }
   
-  return(list("e"=emer,"a"=a))
+  return(list("e"=emer, "a"=a, "p"=p))
 }
 
 post_decode <- function(x,B,k,emer,a){
@@ -112,12 +112,13 @@ post_decode <- function(x,B,k,emer,a){
   bw <- backward_res$b[-1,]
   p <- backward_res$p
 
-  apply(fw+bw-p, 2, which.max) # pi_star
+  return(list("pi_star"=apply(fw+bw-p, 2, which.max), "p"=p))
 }
 
 hmm <- function(x,B,k,emer,a,epsilon=0.01,maxloop=1000){
   bw_res <- baum_welch(x,B,k,emer,a,epsilon,maxloop)
   pd_res <- post_decode(x,B,k,bw_res$e,bw_res$a)
   
-  return(list("e"=bw_res$e,"a"=bw_res$a,"pi_star"=pd_res))
+  return(list("e"=bw_res$e, "a"=bw_res$a, 
+              "pi_star"=pd_res$pi_star, "logp"=pd_res$p))
 }

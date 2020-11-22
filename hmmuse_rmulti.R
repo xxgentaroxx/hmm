@@ -1,4 +1,4 @@
-source("hmmfunc_rmulti.R")
+source("hmm_rmulti.R")
 
 # Create observation data -----
 B <- 1:6
